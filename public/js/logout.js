@@ -4,7 +4,7 @@ import { showAlert } from './alerts';
 export const logout = async () => {
   try{
     let res = await axios({
-      url: 'http://localhost:3000/api/v1/users/logout',
+      url: '/api/v1/users/logout',
       method: 'GET'
     });
 
