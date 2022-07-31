@@ -10,16 +10,19 @@ const userSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: [true, 'Please tell use your email'],
+    required: [true, 'Please tell use your emails'],
     unique: true,
     lowercase: true,
-    validate: [validator.isEmail, 'Please provide a valid email address'],
+    validate: [validator.isEmail, 'Please provide a valid emails address'],
   },
-  photo: String,
+  photo: {
+    type: String,
+    default: 'default.jpg'
+  },
   role: {
     type: String,
     enum: ['user', 'guide', 'lead-guide', 'admin'],
-    default: 'user'
+    default: 'user',
   },
   password: {
     type: String,
@@ -41,11 +44,11 @@ const userSchema = new mongoose.Schema({
   passwordChangedAt: Date,
   passwordResetToken: String,
   passwordResetExpires: Date,
-  active:{
+  active: {
     type: Boolean,
     default: true,
-    select: false
-  }
+    select: false,
+  },
 });
 
 userSchema.pre('save', async function (next) {
@@ -103,7 +106,8 @@ userSchema.methods.createPasswordResetToken = function(){
 
   //console.log({resetToken}, this.passwordResetToken, this.passwordResetExpires.toLocaleString())
   // 10 millisecond * 60 => 600 millisecond * 1000 => 600 seconds || 10 minutes
-  this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+  // this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+  this.passwordResetExpires = Date.now() + process.env.PASSWORD_RESRE_EXPIRES_IN * 60 * 1000;
 
   return resetToken;
 }
