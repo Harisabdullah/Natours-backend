@@ -107,7 +107,7 @@ userSchema.methods.createPasswordResetToken = function(){
   //console.log({resetToken}, this.passwordResetToken, this.passwordResetExpires.toLocaleString())
   // 10 millisecond * 60 => 600 millisecond * 1000 => 600 seconds || 10 minutes
   // this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
-  this.passwordResetExpires = Date.now() + process.env.PASSWORD_RESRE_EXPIRES_IN * 60 * 1000;
+  this.passwordResetExpires = Date.now() + process.env.PASSWORD_RESET_EXPIRES_IN * 60 * 1000;
 
   return resetToken;
 }
